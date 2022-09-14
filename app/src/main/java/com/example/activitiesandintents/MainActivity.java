@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+
 public class MainActivity extends AppCompatActivity {
 
     TextView conTextView;
@@ -24,11 +26,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClick(View view) {
 
-        // create a new intent passing the context (this) and the TestActivity class (EXPLICIT intent example)
+        FirebaseMessaging.getInstance().token;
+
+        /*// create a new intent passing the context (this) and the TestActivity class (EXPLICIT intent example)
         Intent intent = new Intent(this, TestActivity.class);
 
         // this call starts the activity based on the intent
-        startActivity(intent);
+        startActivity(intent);*/
     }
 
     public void onImplicit(View view) {
