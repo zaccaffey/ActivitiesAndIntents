@@ -1,14 +1,19 @@
 package com.example.activitiesandintents;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,14 +30,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClick(View view) {
-
-        FirebaseMessaging.getInstance().token;
-
-        /*// create a new intent passing the context (this) and the TestActivity class (EXPLICIT intent example)
-        Intent intent = new Intent(this, TestActivity.class);
-
-        // this call starts the activity based on the intent
-        startActivity(intent);*/
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (!task.isSuccessful()) {
+                    Log.i("This is the token: ", task.getResult());
+                    return;
+                }
+            }
+        });
     }
 
     public void onImplicit(View view) {
@@ -76,4 +82,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void serviceHandler(View view) {
+        Intent intent = new Intent(this, MyService.class);
+        intent.putExtra("filename", "YourMovie.mov");
+        switch (view.getId()) {
+            case R.id.btnStartService:
+                startService(intent);
+                break;
+            case R.id.btnStopService:
+                stopService(intent);
+                break;
+        }
+    }
 }
