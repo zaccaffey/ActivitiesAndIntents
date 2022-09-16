@@ -8,11 +8,13 @@ import androidx.core.content.ContextCompat;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,6 +24,8 @@ import com.google.firebase.messaging.FirebaseMessaging;
 public class MainActivity extends AppCompatActivity {
 
     TextView conTextView;
+    EditText etName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         // this connects the activity to our layout
         setContentView(R.layout.activity_main);
+        etName = findViewById(R.id.etName);
 
     }
 
@@ -42,6 +47,38 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    // when the activity is paused call the save data function to save the preferences
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveData();
+    }
+
+    private void saveData() {
+        String name = etName.getText().toString();
+        // create a shared preferences file in private mode
+        SharedPreferences sharedPreferences = getSharedPreferences("shared prefs", MODE_PRIVATE);
+        // declare an editor to add to the preferences file
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        // put the name string into the shared preferences file
+        editor.putString("nkey", name);
+        editor.apply();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        restoreData();
+    }
+
+    private void restoreData() {
+        // access the shared preferences file that was created
+        SharedPreferences sharedPreferences = getSharedPreferences("shared prefs", MODE_PRIVATE);
+        // grab the name from our shared preferences file
+        String name = sharedPreferences.getString("nkey", "No such data found");
+        etName.setText(name);
     }
 
     public void onImplicit(View view) {
