@@ -11,9 +11,9 @@ public class MyService extends Service {
     private String TAG = "TAG";
     private IBinder binder = new LocalBinder();
 
+    // Return the communication channel to the service. May return null if clients can not bind to the service
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
         return binder;
     }
 
@@ -26,12 +26,14 @@ public class MyService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
+        // indicate in the log that the service has started
         Log.i(TAG, "Service Started --- " + intent.getStringExtra("filename"));
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.music_file);
-        mediaPlayer.start();
+        /*MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.music_file);
+        mediaPlayer.start();*/
         return START_STICKY;
     }
 
+    // service function that will be accessible when we bind the activity to the service
     public int add(int fno, int sno) {
         return fno + sno;
     }

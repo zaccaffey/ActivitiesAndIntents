@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // invoked when one of the service buttons is clicked
     public void serviceHandler(View view) {
         Intent intent = new Intent(this, MyService.class);
         intent.putExtra("filename", "YourMovie.mov");
@@ -100,12 +101,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // create the service connection --- interface for monitoring the state of an application service
     ServiceConnection serviceConnection = new ServiceConnection() {
+        // create an instance of myService
         MyService myService;
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder binder) {
+            // create a local binder to MyService
             MyService.LocalBinder myLocalBinder = (MyService.LocalBinder) binder;
+            // use the local binder to get the service
             myService = myLocalBinder.getService();
+            // make a call to the service function (add)
             int result = myService.add(3, 4);
             Log.i("This is the tag ----- ", result+"");
         }
