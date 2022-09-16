@@ -5,9 +5,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -92,6 +95,24 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btnStopService:
                 stopService(intent);
                 break;
+            case R.id.btnBind:
+                bindService(intent, serviceConnection, BIND_AUTO_CREATE);
         }
     }
+
+    ServiceConnection serviceConnection = new ServiceConnection() {
+        MyService myService;
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder binder) {
+            MyService.LocalBinder myLocalBinder = (MyService.LocalBinder) binder;
+            myService = myLocalBinder.getService();
+            int result = myService.add(3, 4);
+            Log.i("This is the tag ----- ", result+"");
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+
+        }
+    };
 }
