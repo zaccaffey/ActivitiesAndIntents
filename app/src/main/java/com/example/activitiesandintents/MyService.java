@@ -12,17 +12,20 @@ public class MyService extends Service {
     private IBinder binder = new LocalBinder();
 
     // Return the communication channel to the service. May return null if clients can not bind to the service
+    // This runs when the binder is created
     @Override
     public IBinder onBind(Intent intent) {
         return binder;
     }
 
+    // this runs when the service is created
     @Override
     public void onCreate() {
         super.onCreate();
         Log.i(TAG, "Service Created");
     }
 
+    // When the service starts this will run
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
