@@ -15,14 +15,25 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ActivitiesAndIntents"
         tools:targetApi="31">
+        <activity
+
+            android:name=".roomdb.RoomActivity"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <service
             android:name=".MyService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
         <activity
             android:name=".FcmActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".ResultsActivity"
             android:exported="false" /> <!-- Here are the activities that are associated with this application -->
@@ -32,11 +43,6 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
